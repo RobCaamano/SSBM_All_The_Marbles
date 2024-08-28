@@ -1,0 +1,821 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    cursor: url("/static/images/Cursor Default.png") 45 10, auto;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    position: absolute;
+    pointer-events: none;
+}
+
+/*** Alert Box ***/
+
+.alert-box {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    padding: 20px;
+    background-color: #290700;
+    color: white;
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 10px;
+    z-index: 1001;
+}
+
+/* Alert Box Message */
+#alert-message {
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Alert Box Button */
+.alert-box button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    letter-spacing: 2px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect on button */
+.alert-box button:hover {
+    background-color: #460c00;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+}
+
+/*** Toolbar ***/
+.toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8%;
+    background-color: rgba(51, 51, 51, 0.8); /* 80% opacity */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+
+.toolbar-item {
+    display: flex;
+    position: relative;
+}
+
+.toolbar-item button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    padding: 5px;
+}
+
+/*** Show Graphs Button ***/
+
+#show-graphs-btn {
+    background-color: #290700;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-top: 17%;
+    font-size: 20px;
+    color: white;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+#show-graphs-btn:hover {
+    background-color: #460c00;
+}
+
+/* Graphs Dropdown */
+.graphs-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #290700;
+    border: 1px solid white;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.graphs-dropdown a {
+    display: block;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+}
+
+.graphs-dropdown a:hover {
+    background-color: #555;
+}
+
+#graphs-dropdown option{
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+#graphs-dropdown option:hover {
+    background-color: #460c00;
+}
+
+/* Selected Option Coloring */
+#graphs-dropdown option:checked {
+    background-color: #460c00;
+    color: white;
+}
+
+/* Graph Display */
+.graph-window {
+    position: absolute;
+    border: 1px solid #ccc;
+    background: #fff;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+    resize: both;
+    overflow: hidden;
+    z-index: 3000;
+}
+
+.graph-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f1f1f1;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+}
+
+/* Graph Player Dropdown */
+#graph-player-dropdown {
+    position: absolute;
+    top: 1.8%;
+    left: 40%;
+    width: 10%;
+    height: 5%;
+    overflow-y: auto;
+    font-size: 20px;
+    color: white;
+    background-color: #290700;
+    opacity: 95%;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+}
+
+#graph-player-dropdown option {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    transition: background-color 0.3s ease;
+}
+
+#graph-player-dropdown option:hover {
+    background-color: #460c00;
+}
+
+/* Close button */
+.close-btn-graphs {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 28px;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+}
+
+.close-btn-graphs:hover,
+.close-btn-graphs:focus {
+    color: #460c00;
+    text-decoration: none;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+}
+
+/* Resize handle */
+.resize-handle {
+    width: 20px;
+    height: 20px;
+    background: #ddd;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+}
+
+/* Movable graph image */
+.movable-graph {
+    width: 100%;
+    height: auto;
+}
+
+.movable-graph:active {
+    cursor: url("/static/images/Cursor Grabbing.png") 45 10, auto;
+}
+
+/*** Insert Button ***/
+
+#insert-result-btn {
+    position: relative;
+    opacity: 1;
+    background-color: #290700;
+    color: white;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 25px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 10%;
+    left: 37%;
+    height: 60%;
+    width: 25%;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    transition: background-color 0.3s ease;
+}
+
+#insert-result-btn:hover {
+    background-color: #460c00;
+}
+
+/*** Reset Button ***/
+#reset-btn {
+    position: relative;
+    opacity: 1;
+    background-color: #290700;
+    color: white;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 10%;
+    right: 2.5%;
+    height: 40%;
+    width: 7%;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    transition: background-color 0.3s ease;
+}
+
+#reset-btn:hover {
+    background-color: #460c00;
+}
+
+/* Reset Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1500;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* black background w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #290700;
+    color: white;
+    letter-spacing: 2px;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid white;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 8px;
+}
+
+.modal-content h3 {
+    text-transform: uppercase;
+}
+
+/* Close Button */
+.close-btn-modal {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn-modal:hover,
+.close-btn-modal:focus {
+    color: #460c00;
+    text-decoration: none;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+}
+
+/* Modal Buttons */
+.modal-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    letter-spacing: 2px;
+    border-radius: 5px;
+    margin: 10px;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    transition: background-color 0.3s ease;
+}
+
+.modal-btn:hover {
+    background-color: #460c00;
+}
+
+/*** Log Table Display ***/
+#logs-content {
+    position: fixed;
+    top: 11.3%;
+    right: 0.5%;
+    width: 17%;
+    height: 39%;
+    overflow-y: auto;
+    padding: 10px;
+    z-index: 1000;
+    font-size: 13px;
+    color: white;
+    background-color: #290700;
+    opacity: 85%;
+    border: 1px solid white;
+    border-radius: 10px;
+    letter-spacing: 2px;
+}
+
+/* Table styling */
+.logs-table {
+    width: 100%;
+    color: white;
+}
+
+th {
+    background-color: #290700;
+    color: white;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.logs-table th, td {
+    border-bottom: 1px solid white;
+    padding: 4px;
+    text-align: center;
+}
+
+#logs-content tr:nth-child(even) {
+    background-color: #3d0a00;
+}
+
+/*** Streak Display ***/
+#current-streak-container {
+    position: fixed;
+    top: 54.5%;
+    right: 0.5%;
+    width: 17%;
+    height: auto;
+    padding: 10px;
+    z-index: 1000;
+    font-size: 13px;
+    color: white;
+    background-color: #290700;
+    opacity: 85%;
+    border: 1px solid white;
+    border-radius: 10px;
+    letter-spacing: 2px;
+}
+
+#current-streak-container h3 {
+    margin: 0;
+    font-size: 16px;
+    text-align: center;
+    border-bottom: 1px solid white;
+    padding: 6px;
+}
+
+#streak-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#streak-table td {
+    padding: 6px;
+    border-bottom: 1px solid white;
+    vertical-align: center;
+}
+
+#streak-table td:first-child {
+    font-weight: bold;
+    text-align: left;
+}
+
+#streak-table tr:last-child td {
+    border-bottom: none;
+}
+
+#streak-table td {
+    color: white;
+}
+
+/*** Dropzones for P1 / P2 win selection ***/
+
+.dropzone-win{
+    position: absolute;
+    width: 14%;
+    height: 39%;
+    z-index: 1100;
+}
+
+#dropzone-p1{
+    top: 60%;
+    left: 20.3%;
+}
+
+#dropzone-p2{
+    top: 60%;
+    left: 35.4%;
+}
+
+/*** Dropzones for character selection ***/
+
+.dropzone {
+    position: absolute;
+    width: 6.5%;
+    height: 13%;
+}
+
+/* Each character's positioning */
+
+#Dr\ Mario {
+    top: 12%;
+    left: 19.5%;
+}
+
+#Mario {
+    top: 11%;
+    left: 26%;
+}
+
+#Luigi {
+    top: 11%;
+    left: 33%;
+}
+
+#Bowser {
+    top: 11%;
+    left: 40%;
+}
+
+#Peach {
+    top: 11%;
+    left: 47%;
+}
+
+#Yoshi {
+    top: 11%;
+    left: 53.5%;
+}
+
+#Donkey\ Kong {
+    top: 11%;
+    left: 60.5%;
+}
+
+#Captain\ Falcon {
+    top: 11%;
+    left: 67.5%;
+}
+
+#Ganondorf {
+    top: 12%;
+    left: 74%;
+}
+
+#Falco {
+    top: 25.5%;
+    left: 19.5%;
+}
+
+#Fox {
+    top: 25%;
+    left: 26%;
+}
+
+#Ness {
+    top: 25%;
+    left: 33%;
+}
+
+#Ice\ Climbers {
+    top: 25%;
+    left: 40%;
+}
+
+#Kirby {
+    top: 25%;
+    left: 47%;
+}
+
+#Samus {
+    top: 25%;
+    left: 53.5%;
+}
+
+#Zelda {
+    top: 25%;
+    left: 60.5%;
+}
+
+#Link {
+    top: 25%;
+    left: 67.5%;
+}
+
+#Young\ Link {
+    top: 25.5%;
+    left: 74%;
+}
+
+#Pichu {
+    top: 39.5%;
+    left: 26.2%;
+}
+
+#Pikachu {
+    top: 39%;
+    left: 33%;
+}
+
+#Jigglypuff {
+    top: 39%;
+    left: 40%;
+}
+
+#Mewtwo {
+    top: 39%;
+    left: 47%;
+}
+
+#Mr\ Game\ \&\ Watch {
+    top: 39%;
+    left: 53.5%;
+}
+
+#Marth {
+    top: 39%;
+    left: 60.5%;
+}
+
+#Roy {
+    top: 39.5%;
+    left: 67.5%;
+}
+
+/*** Transform Button ***/
+.transform-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 28%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    font-size: 14px;
+    letter-spacing: 2px;
+    background-color: #290700;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    opacity: 0.9;
+    transition: opacity 0.3s ease-in-out;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+}
+
+.transform-btn:hover {
+    background-color: #460c00;
+}
+
+/*** Draggable P1 and P2 Icons ***/
+
+.draggable {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    z-index: 1200;
+}
+
+.draggable:active {
+    cursor: url("/static/images/Cursor Grabbing.png") 45 10, auto;
+}
+
+/* P1 Positioning */
+#p1 {
+    top: 73%;
+    left: 25.7%;
+}
+
+/* P2 Positioning */
+#p2 {
+    top: 73%;
+    left: 40.7%;
+}
+
+/* Win Positioning */
+#win {
+    top: 71.5%;
+    left: 55.1%;
+}
+
+/*** Character Selection Popup ***/
+
+.selection-overlay {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    pointer-events: none;
+}
+
+/* P1 Selection */
+#overlay1 {
+    top: 20%;
+    left: 20%;
+}
+
+/* P2 Selection */
+#overlay2 {
+    top: 20%;
+    left: 40%;
+}
+
+/*** Name Enter Boxes ***/
+
+.name-insertion input {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-family: 'Arial', sans-serif;
+    font-size: 30px;
+    letter-spacing: 2px;
+    color: white;
+    background-color: #290700;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    text-transform: uppercase;
+}
+
+/* Focus State */
+.name-insertion input:focus {
+    border: 2px solid #fffb00;
+    background-color: #290700;
+    outline: none;
+}
+
+/* Name Insertion Boxes */
+
+.name-insertion #name1{
+    position: absolute;
+    width: 8%;
+    height: 4%;
+    bottom: 39%;
+    left: 19.9%;
+}
+
+.name-insertion #name2{
+    position: absolute;
+    width: 8%;
+    height: 4%;
+    bottom: 39%;
+    left: 35%;
+}
+
+/* Add Name Button */
+
+#add-btn1,
+#add-btn2 {
+    position: absolute;
+    bottom: 40%;
+    height: 6.2%;
+    width: 5%;
+    padding: 8px 16px;
+    background-color: #290700;
+    border: 1px solid #cccccc;
+    border-radius: 12px;
+    color: white;
+    border-radius: 4px;
+    font-size: 25px;
+    letter-spacing: 2px;
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    transition: background-color 0.3s ease;
+}
+
+#add-btn1 {
+    left: 29.7%;
+}
+
+#add-btn2 {
+    left: 45%;
+}
+
+#add-btn1:hover,
+#add-btn2:hover {
+    background-color: #460c00;
+}
+
+/*** Dropdown Menus ***/
+
+#player-dropdown-p1,
+#player-dropdown-p2 {
+    position: absolute;
+    width: 15%;
+    height: 20%;
+    top: 60%;
+    display: none;
+    z-index: 1500;
+    overflow-y: auto;
+    color: white;
+    background-color: #290700;
+    opacity: 85%;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+}
+
+#player-dropdown-p1 {
+    left: 19.9%; /* Align with P1 */
+}
+
+#player-dropdown-p2 {
+    left: 35%; /* Align with P2 */
+}
+
+#player-dropdown-p1 option,
+#player-dropdown-p2 option {
+    cursor: url("/static/images/Cursor Hover.png") 45 10, auto;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    font-size: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/*** P1 & P2 Character Displays ***/
+
+.character-display img {
+    width: 14%;
+    height: 39%;
+    display: none;
+    position: absolute;
+}
+
+.character-display #bottom-image-p1 {
+    top: 60%;
+    left: 20.5%;
+}
+
+.character-display #bottom-image-p2 {
+    top: 60%;
+    left: 35.5%;
+}

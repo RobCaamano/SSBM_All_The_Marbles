@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melee Character Selector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-item">
+            <button id="show-graphs-btn">Show Graphs</button>
+            <!-- Dropdown for graphs -->
+            <select id="graphs-dropdown" multiple class="graphs-dropdown" style="display: none;">
+                <option value="total-wins">Total Wins</option>
+                <option value="win-ratio">Win Ratio</option>
+                <option value="wins-over-time">Wins over Time</option>
+                <option value="top-characters">Top Characters</option>
+            </select>
+        </div>
+        <!-- Insert results button-->
+        <button id="insert-result-btn">Insert Result</button>
+        <!-- Reset button-->
+        <button id="reset-btn">Reset</button>
+    </div>
+
+    <!-- Alert box -->
+    <div id="custom-alert" class="alert-box" style="display:none;">
+        <span id="alert-message"></span>
+        <button id="close-alert" onclick="closeAlert()">OK</button>
+    </div>
+
+    <!-- Confirm Reset Modal -->
+    <div id="confirm-reset-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn-modal">&times;</span>
+            <h3>CONFIRM RESET</h3>
+            <p>Are you sure you want to delete all data? This action cannot be undone.</p>
+            <button id="confirm-reset-yes" class="modal-btn">YES</button>
+            <button id="confirm-reset-no" class="modal-btn">NO</button>
+        </div>
+    </div>
+
+    <!-- Graphs container -->
+    <div id="graphs-container" class="graph-window" style="display: none;">
+        <div class="graph-header">
+            <span class="graph-title">GRAPH</span>
+            <select id="graph-player-dropdown" style="display: none;"></select>
+            <button class="close-btn-graphs">&times;</button>
+        </div>
+        <img id="graph-image" src="" alt="Graph will appear here" class="movable-graph">
+        <div class="resize-handle"></div>
+    </div>
+
+    <!-- Logs container -->
+    <div id="logs-content">
+        <table id="logs-table">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Character</th>
+                    <th>Streak</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="logs-body">
+                <!-- Log entries will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Current streak container -->
+    <div id="current-streak-container">
+        <h3>CURRENT STREAK</h3>
+        <table id="streak-table">
+            <tbody>
+                <tr>
+                    <td>WINNER:</td>
+                    <td id="winner"></td>
+                </tr>
+                <tr>
+                    <td>STREAK:</td>
+                    <td id="streak"></td>
+                </tr>
+                <tr>
+                    <td>START:</td>
+                    <td id="streak-start"></td>
+                </tr>
+                <tr>
+                    <td>DURATION:</td>
+                    <td id="streak-duration"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <div class="background">
+            <img src="{{ url_for('static', filename='images/character select screen.png') }}" alt="Character Select Screen" class="background-image">
+            
+            <!-- Dropzones for character selection -->
+            <div class="dropzone" id="Dr Mario" data-character="Dr Mario"></div>
+            <div class="dropzone" id="Mario" data-character="Mario"></div>
+            <div class="dropzone" id="Luigi" data-character="Luigi"></div>
+            <div class="dropzone" id="Bowser" data-character="Bowser"></div>
+            <div class="dropzone" id="Peach" data-character="Peach"></div>
+            <div class="dropzone" id="Yoshi" data-character="Yoshi"></div>
+            <div class="dropzone" id="Donkey Kong" data-character="Donkey Kong"></div>
+            <div class="dropzone" id="Captain Falcon" data-character="Captain Falcon"></div>
+            <div class="dropzone" id="Ganondorf" data-character="Ganondorf"></div>
+            <div class="dropzone" id="Falco" data-character="Falco"></div>
+            <div class="dropzone" id="Fox" data-character="Fox"></div>
+            <div class="dropzone" id="Ness" data-character="Ness"></div>
+            <div class="dropzone" id="Ice Climbers" data-character="Ice Climbers"></div>
+            <div class="dropzone" id="Kirby" data-character="Kirby"></div>
+            <div class="dropzone" id="Samus" data-character="Samus"></div>
+            <div class="dropzone" id="Zelda" data-character="Zelda"></div>
+            <div class="dropzone" id="Link" data-character="Link"></div>
+            <div class="dropzone" id="Young Link" data-character="Young Link"></div>
+            <div class="dropzone" id="Pichu" data-character="Pichu"></div>
+            <div class="dropzone" id="Pikachu" data-character="Pikachu"></div>
+            <div class="dropzone" id="Jigglypuff" data-character="Jigglypuff"></div>
+            <div class="dropzone" id="Mewtwo" data-character="Mewtwo"></div>
+            <div class="dropzone" id="Mr Game & Watch" data-character="Mr Game & Watch"></div>
+            <div class="dropzone" id="Marth" data-character="Marth"></div>
+            <div class="dropzone" id="Roy" data-character="Roy"></div>
+
+            <!-- Draggable icons -->
+            <img src="{{ url_for('static', filename='images/P1 icon.png') }}" class="draggable" id="p1" draggable="true">
+            <img src="{{ url_for('static', filename='images/P2 icon.png') }}" class="draggable" id="p2" draggable="true">
+            <img src="{{ url_for('static', filename='images/Win icon.png') }}" class="draggable" id="win" draggable="true">
+
+            <!-- Name insertion boxes -->
+            <div class="name-insertion">
+                <input type="text" id="name1" placeholder="P1">
+                <button id="add-btn1">ADD</button>
+                <input type="text" id="name2" placeholder="P2">
+                <button id="add-btn2">ADD</button>
+            </div>
+
+            <!-- Player names dropdowns -->
+            <div class="player-dropdowns">
+                <select id="player-dropdown-p1" multiple style="display: none;">
+                    <!-- Names will be populated here -->
+                </select>
+                <select id="player-dropdown-p2" multiple style="display: none;">
+                    <!-- Names will be populated here -->
+                </select>
+            </div>
+
+            <!-- Character image display at the bottom -->
+            <div class="character-display">
+                <img id="bottom-image-p1" src="" alt="Selected Character P1" style="display: none;">
+                <img id="bottom-image-p2" src="" alt="Selected Character P2" style="display: none;">
+            </div>
+
+            <!-- Dropzones for win selection -->
+            <div class="dropzone-win" id="dropzone-p1">
+                <button id="transform-btn-p1" class="transform-btn" style="display: none;">TRANSFORM</button>
+            </div>
+            <div class="dropzone-win" id="dropzone-p2">
+                <button id="transform-btn-p2" class="transform-btn" style="display: none;">TRANSFORM</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
